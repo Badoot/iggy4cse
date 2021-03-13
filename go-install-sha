@@ -1,0 +1,17 @@
+#!/bin/bash
+PKG=$1
+SHA=$2
+REPO=$PKG
+if [[ -z "$PKG" ]] || [[ -z "$SHA" ]]; then
+    echo "$0: bad arguments"
+    exit 1
+fi
+if [[ -n "$3" ]]; then
+    REPO=$3
+fi
+set -xe
+go get -d $PKG
+git -c advice.detachedHead=false -C "$(go env GOPATH)"/src/$PKG checkout $SHA
+go install $PKG
+rm -rf $(git -C "$(go env GOPATH)"/src/$PKG rev-parse --show-toplevel)
+

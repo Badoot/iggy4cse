@@ -1,0 +1,32 @@
+# Docker Upstart and SysVinit configuration file
+
+#
+# THIS FILE DOES NOT APPLY TO SYSTEMD
+#
+#   Please see the documentation for "systemd drop-ins":
+#   https://docs.docker.com/engine/admin/systemd/
+#
+
+# Customize location of Docker binary (especially for development testing).
+DOCKERD="/usr/local/bin/dockerd"
+
+# Use DOCKER_OPTS to modify the daemon startup options.
+#DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"
+
+# If you need Docker to use an HTTP proxy, it can also be specified here.
+#export http_proxy="http://127.0.0.1:3128/"
+
+
+# This is also a handy place to tweak where Docker's temporary files go.
+#export DOCKER_TMPDIR="/mnt/bigdrive/docker-tmp"
+
+# make sure cloud-init has time to mount /mnt properly
+if [ -b /dev/xvdb ]; then
+    while ! grep -q '^/dev/xvdb' /proc/mounts ; do sleep 1; done
+fi
+if [ -b /dev/nvme0n1 ]; then
+    while ! grep -q '^/dev/nvme0n1' /proc/mounts ; do sleep 1; done
+fi
+if [ -b /dev/nvme1n1 ]; then
+    while ! grep -q '^/dev/nvme1n1' /proc/mounts ; do sleep 1; done
+fi
