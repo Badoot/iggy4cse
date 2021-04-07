@@ -171,8 +171,9 @@ EOF
 fi
 
 # Go setup
+export GO111MODULE=off
 OLD_PATH=$PATH
-for GO_VERSION in 1.13.3 1.15.2; do
+for GO_VERSION in 1.13.3 1.16; do
     GO_DIR=/usr/src/go$GO_VERSION
 
     # add current go version to PATH, leaking for future use.
@@ -224,12 +225,18 @@ for GO_VERSION in 1.13.3 1.15.2; do
 
     # go tools
     go get -d golang.org/x/tools/...
-    git -C "$(go env GOPATH)"/src/golang.org/x/tools checkout release-branch.go$(echo $GO_VERSION | cut -f-2 -d.)
+
+    if [[ $GO_VERSION = 1.16 ]]; then
+    	# 1.16 does not have a release branch, and its unclear as to whether
+    	# the go authors intend to cut one. For now, use latest.
+	git -C "$(go env GOPATH)"/src/golang.org/x/tools checkout b4639ccb830b1c9602f1c96eba624bbbe20650ea
+    else
+	git -C "$(go env GOPATH)"/src/golang.org/x/tools checkout release-branch.go$(echo $GO_VERSION | cut -f-2 -d.)
+    fi
+
     go install -v golang.org/x/tools/cmd/...
 
     #After go
-    export PATH="$PATH:/usr/src/go1.13.3/go/bin"
-    export GOPATH="/usr/src/go1.13.3/gopath"
     go get -d "github.com/ttacon/chalk"
 
     # golint
@@ -246,7 +253,7 @@ for GO_VERSION in 1.13.3 1.15.2; do
     go-install-sha github.com/golang/protobuf/protoc-gen-go b5d812f8a3706043e23a9cd5babf2e5423744d30
 
     # msgp 1.1
-    go-install-sha github.com/tinylib/msgp af6442a0fcf6e2a1b824f70dd0c734f01e817751
+    go-install-sha github.com/tinylib/msgp 82be0922cb896b3f0ea7df4d1f5e3c5911f92ac8  
 
     # Cleanup
     rm -rf $HOME/.cache
