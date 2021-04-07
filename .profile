@@ -24,7 +24,7 @@ fi
 alias prod="IGGY_ENDPOINT="https://cloud.igneous.io" AWS_PROFILE="production" IGGY_ENV="production" ; source ~/.profile"
 alias cust-prod="IGGY_ENDPOINT="https://cloud.igneous.io" AWS_PROFILE="cust-prod" IGGY_ENV="cust-prod" ; source ~/.profile"
 alias dev="IGGY_ENDPOINT="https://dev.iggy.bz" AWS_PROFILE="default" IGGY_ENV="dev" ; source ~/.profile"
-alias sim="IGGY_ENDPOINT="http://192.168.1.31:5000"  AWS_PROFILE="local" IGGY_ENV="sim" ; source ~/.profile"
+alias sim="IGGY_ENDPOINT="http://10.38.72.9:5000"  AWS_PROFILE="local" IGGY_ENV="sim" ; source ~/.profile"
 alias topo12="export IGGY_ENDPOINT="" AWS_PROFILE="default" IGGY_ENV="topo12" ; source ~/.profile"
 alias startcs="export IGGY_ENDPOINT="" AWS_PROFILE="local" IGGY_ENV="startcs" ; source ~/.profile"
 
@@ -36,6 +36,6 @@ echo "AWS_PROFILE :  $AWS_PROFILE "
 
 export PS1="\u@\h:\w : $IGGY_ENV $ "
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/$(whoami)/mesa/go/bin/linux_amd64:/usr/local/go/bin:/usr/src/go1.15.2/go/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/$(whoami)/mesa/go/bin/linux_amd64:/usr/local/go/bin:/usr/src/go1.16/go/bin"
 
-export GOPATH="/root/mesa/go"
+export GOPATH="/$(whoami)/mesa/go"
